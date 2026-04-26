@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yaoundé Ville Propre - Signalement Insalubrité</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center" href="/">
+      <img src="/static/logo.svg" width="40" class="me-2"> Yaoundé Ville Propre
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="menu">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" href="/">Accueil</a></li>
+        <li class="nav-item"><a class="nav-link" href="/signalements">Signalements</a></li>
+        <li class="nav-item"><a class="nav-link" href="/analyse">Statistiques</a></li>
+        {% if session.user_id %}
+          <li class="nav-item"><a class="nav-link" href="/mes-signalements">Mes signalements</a></li>
+          {% if user_role == 'agent' %}
+          <li class="nav-item"><a class="nav-link btn btn-warning btn-sm ms-2" href="/agent">🔧 Espace Agent</a></li>
+          {% endif %}
+          <li class="nav-item"><a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+        {% else %}
+          <li class="nav-item"><a class="nav-link" href="/login"><i class="fas fa-user"></i> Connexion</a></li>
+        {% endif %}
+      </ul>
+      <button id="darkToggle" class="btn btn-outline-light btn-sm" onclick="toggleDark()">🌓</button>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="container" data-aos="fade-up">
+    <h1>Ensemble, rendons Yaoundé plus propre</h1>
+    <p class="mb-4">Signalez les zones insalubres en quelques clics. Les agents municipaux sont alertés.</p>
+    <div class="d-flex justify-content-center flex-wrap">
+      <a href="/signaler-anonyme" class="btn btn-light btn-lg m-2"><i class="fas fa-exclamation-triangle"></i> Signaler une zone</a>
+      <a href="/signalements" class="btn btn-outline-light btn-lg m-2">Voir les signalements</a>
+    </div>
+    <div class="mt-4">
+      <div class="stat-badge">
+        <div class="stat-number">{{ total }}</div>
+        <small>Signalements</small>
+      </div>
+      <div class="stat-badge">
+        <div class="stat-number">{{ en_cours }}</div>
+        <small>En cours</small>
+      </div>
+      <div class="stat-badge">
+        <div class="stat-number">{{ traites }}</div>
+        <small>Traités</small>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Comment ça marche -->
+<div class="container my-5">
+  <h2 class="text-center mb-4">Comment ça marche ?</h2>
+  <div class="row text-center">
+    <div class="col-md-4" data-aos="zoom-in">
+      <div class="etape-icon"><i class="fas fa-camera"></i></div>
+      <h5>1. Je photographie</h5>
+      <p>Prenez une photo de la zone insalubre.</p>
+    </div>
+    <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
+      <div class="etape-icon"><i class="fas fa-map-marker-alt"></i></div>
+      <h5>2. Je localise</h5>
+      <p>Sélectionnez votre quartier et décrivez le problème.</p>
+    </div>
+    <div class="col-md-4" data-aos="zoom-in" data-aos-delay="400">
+      <div class="etape-icon"><i class="fas fa-check-circle"></i></div>
+      <h5>3. L'équipe intervient</h5>
+      <p>Les agents traitent le signalement, vous suivez l'évolution.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Derniers signalements (tous) -->
+<div class="container my-5">
+  <h2 class="text-center mb-4">Derniers signalements</h2>
+  <div class="row">
+    {% for s in derniers %}
+    <div class="col-md-4 mb-4" data-aos="fade-up">
+      <div class="card h-100">
+        {% if s.image_filename %}
+        <img src="/static/uploads/{{ s.image_filename }}" class="card-img-top" style="height:200px; object-fit:cover;">
+        {% else %}
+        <div class="bg-light text-center py-5"><i class="fas fa-image fa-3x text-muted"></i></div>
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title">{{ s.quartier }}</h5>
+          <p class="card-text">{{ s.type_insalubrite }}</p>
+          <span class="etat-badge etat-{{ s.statut }}">{{ s.statut | replace('_',' ') | capitalize }}</span>
+          <a href="/signalement/{{ s.id }}" class="btn btn-sm btn-outline-success mt-2">Détails</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="text-center">
+    <a href="/signalements" class="btn btn-success">Tous les signalements</a>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init({ duration: 800 });
+  function toggleDark() {
+    document.body.classList.toggle('dark-mode');
+    localStorage.setItem('mode', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+  }
+  if (localStorage.getItem('mode') === 'dark') {
+    document.body.classList.add('dark-mode');
+  }
+</script>
+</body>
+</html>

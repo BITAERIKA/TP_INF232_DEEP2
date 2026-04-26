@@ -1,0 +1,179 @@
+:root {
+    --bg-color: #f5f7fa;
+    --text-color: #212529;
+    --card-bg: #ffffff;
+    --card-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    --navbar-bg: #2E7D32;
+    --btn-primary-bg: #388E3C;
+    --btn-primary-border: #2E7D32;
+    --accent: #81C784;
+    --danger: #D32F2F;
+    --warning: #FBC02D;
+    --success: #388E3C;
+    --table-stripe: #f2f2f2;
+}
+
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #f0f0f0;
+    --card-bg: #2c2c2c;
+    --card-shadow: 0 6px 20px rgba(0,0,0,0.5);
+    --navbar-bg: #1B5E20;
+    --btn-primary-bg: #43A047;
+    --btn-primary-border: #2E7D32;
+    --table-stripe: #3a3a3a;
+}
+
+body {
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: background 0.3s, color 0.3s;
+    scroll-behavior: smooth;
+}
+
+.navbar {
+    background-color: var(--navbar-bg) !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.navbar-brand img {
+    filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.3));
+}
+
+.card {
+    background-color: var(--card-bg);
+    box-shadow: var(--card-shadow);
+    border: none;
+    border-radius: 16px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    color: var(--text-color);
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+}
+
+.card-title, .card-text, .card-body {
+    color: var(--text-color) !important;
+}
+
+.btn {
+    border-radius: 30px;
+    padding: 8px 24px;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.btn-primary {
+    background-color: var(--btn-primary-bg);
+    border-color: var(--btn-primary-border);
+}
+
+.btn-primary:hover {
+    background-color: #1B5E20;
+    border-color: #1B5E20;
+    transform: scale(1.02);
+}
+
+.btn-outline-light {
+    border-radius: 30px;
+}
+
+.hero {
+    background: linear-gradient(135deg, rgba(46,125,50,0.9), rgba(27,94,32,0.9)), url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=2070') center/cover no-repeat;
+    color: white;
+    padding: 100px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.hero p {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.stat-badge {
+    background: rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 10px;
+    display: inline-block;
+    min-width: 120px;
+    backdrop-filter: blur(10px);
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.etape-icon {
+    width: 80px;
+    height: 80px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    font-size: 2rem;
+    color: white;
+}
+
+.etat-badge {
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: inline-block;
+    margin: 4px 0;
+}
+
+.etat-soumis { background: #FFF3E0; color: #E65100; }
+.etat-en_cours { background: #E3F2FD; color: #0D47A1; }
+.etat-traite { background: #E8F5E9; color: #1B5E20; }
+
+.dark-mode .etat-soumis { background: #4E342E; color: #FFB74D; }
+.dark-mode .etat-en_cours { background: #1A237E; color: #90CAF9; }
+.dark-mode .etat-traite { background: #1B5E20; color: #A5D6A7; }
+
+.table {
+    color: var(--text-color);
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: var(--table-stripe);
+}
+
+/* Inputs */
+.form-control, .form-select {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    border: 1px solid #ccc;
+}
+.dark-mode .form-control,
+.dark-mode .form-select {
+    background-color: #444;
+    color: #fff;
+    border-color: #555;
+}
+
+/* Navbar centralisation */
+.navbar .navbar-nav {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (max-width: 768px) {
+    .hero h1 { font-size: 2rem; }
+}

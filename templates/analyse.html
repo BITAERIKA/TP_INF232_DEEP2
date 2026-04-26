@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Statistiques - Yaoundé Ville Propre</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<nav class="navbar navbar-dark" style="background:#2E7D32;">
+  <div class="container">
+    <a class="navbar-brand" href="/"><img src="/static/logo.svg" width="30"> Yaoundé Ville Propre</a>
+    <div class="ms-auto">
+        <a href="/" class="btn btn-outline-light btn-sm me-2">Accueil</a>
+        <button id="darkToggle" class="btn btn-outline-light btn-sm" onclick="toggleDark()">🌓</button>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-4">
+    <h2>Statistiques des signalements</h2>
+    <div class="row mb-4">
+        <div class="col-md-3"><div class="card p-3"><strong>Total</strong><br><span class="fs-3">{{ nb_total }}</span></div></div>
+        <div class="col-md-3"><div class="card p-3"><strong>Moyenne / jour</strong><br><span class="fs-3">{{ moyenne_par_jour }}</span></div></div>
+        <div class="col-md-3"><div class="card p-3"><strong>Type le plus signalé</strong><br><span class="fs-5">{{ mode_type }}</span></div></div>
+        <div class="col-md-3"><div class="card p-3"><strong>Top Quartier</strong><br><span class="fs-5">{{ top_quartiers.iloc[0]['Quartier'] }}</span></div></div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6"><div class="card p-3"><h5>Top 10 quartiers</h5><table class="table table-sm"><thead><tr><th>Quartier</th><th>Nombre</th></tr></thead><tbody>{% for _, r in top_quartiers.iterrows() %}<tr><td>{{ r['Quartier'] }}</td><td>{{ r['Nombre'] }}</td></tr>{% endfor %}</tbody></table></div></div>
+        <div class="col-md-6"><div class="card p-3"><h5>Répartition par type</h5><img src="data:image/png;base64,{{ pie_img }}" class="img-fluid"></div></div>
+    </div>
+
+    <div class="card p-3 mt-3"><h5>Signalements par quartier</h5><img src="data:image/png;base64,{{ bar_img }}" class="img-fluid"></div>
+    <div class="card p-3 mt-3"><h5>Évolution mensuelle</h5><img src="data:image/png;base64,{{ time_img }}" class="img-fluid"></div>
+    <div class="card p-3 mt-3"><h5>Carte interactive des signalements</h5><iframe src="/carte" width="100%" height="500" style="border:none;"></iframe></div>
+</div>
+<script>
+  function toggleDark() {
+    document.body.classList.toggle('dark-mode');
+    localStorage.setItem('mode', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+  }
+  if (localStorage.getItem('mode') === 'dark') document.body.classList.add('dark-mode');
+</script>
+</body>
+</html>

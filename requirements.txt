@@ -1,0 +1,7 @@
+flask
+flask_sqlalchemy
+pandas
+matplotlib
+seaborn
+folium
+werkzeug

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Tableau de bord Agent</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-success">
+  <div class="container">
+    <a class="navbar-brand" href="/">Yaoundé Ville Propre</a>
+    <div class="ms-auto">
+        <a href="/" class="btn btn-outline-light btn-sm me-2">Accueil</a>
+        <a href="/logout" class="btn btn-outline-light btn-sm me-2">Déconnexion</a>
+        <button id="darkToggle" class="btn btn-outline-light btn-sm" onclick="toggleDark()">🌓</button>
+    </div>
+  </div>
+</nav>
+<div class="container mt-4">
+    <h2>Gestion des signalements</h2>
+    <table class="table table-hover">
+        <thead><tr><th>ID</th><th>Quartier</th><th>Type</th><th>Date</th><th>Statut</th><th>Action</th></tr></thead>
+        <tbody>
+        {% for s in signalements %}
+        <tr>
+            <td>{{ s.id }}</td><td>{{ s.quartier }}</td><td>{{ s.type_insalubrite }}</td>
+            <td>{{ s.date_signalement.strftime('%d/%m/%Y') }}</td>
+            <td><span class="etat-badge etat-{{ s.statut }}">{{ s.statut | replace('_',' ') | capitalize }}</span></td>
+            <td>
+                <form method="POST" action="/changer_statut/{{ s.id }}" class="d-flex">
+                    <select name="statut" class="form-select form-select-sm me-2">
+                        <option value="soumis" {% if s.statut=='soumis' %}selected{% endif %}>Soumis</option>
+                        <option value="en_cours" {% if s.statut=='en_cours' %}selected{% endif %}>En cours</option>
+                        <option value="traite" {% if s.statut=='traite' %}selected{% endif %}>Traité</option>
+                    </select>
+                    <button class="btn btn-sm btn-primary">OK</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<script>
+  function toggleDark() {
+    document.body.classList.toggle('dark-mode');
+    localStorage.setItem('mode', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+  }
+  if (localStorage.getItem('mode') === 'dark') document.body.classList.add('dark-mode');
+</script>
+</body>
+</html>
