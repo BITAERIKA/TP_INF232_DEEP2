@@ -15,13 +15,14 @@
 
 body.dark-mode {
     --bg-color: #1a1a1a;
-    --text-color: #f0f0f0;
+    --text-color: #e0e0e0;
     --card-bg: #2c2c2c;
-    --card-shadow: 0 6px 20px rgba(0,0,0,0.5);
+    --card-shadow: 0 6px 20px rgba(0,0,0,0.4);
     --navbar-bg: #1B5E20;
     --btn-primary-bg: #43A047;
     --btn-primary-border: #2E7D32;
     --table-stripe: #3a3a3a;
+    color: var(--text-color);
 }
 
 body {
@@ -30,78 +31,84 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     transition: background 0.3s, color 0.3s;
     scroll-behavior: smooth;
+    overflow-x: hidden;  /* évite débordement mobile */
 }
 
+/* Navbar */
 .navbar {
     background-color: var(--navbar-bg) !important;
     box-shadow: 0 2px 10px rgba(0,0,0,0.2);
 }
-
+.navbar-brand {
+    font-size: 1.1rem;
+    white-space: nowrap;
+}
 .navbar-brand img {
     filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.3));
 }
+.navbar-toggler {
+    border-color: rgba(255,255,255,0.5);
+}
 
+/* Cartes */
 .card {
     background-color: var(--card-bg);
     box-shadow: var(--card-shadow);
     border: none;
     border-radius: 16px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    color: var(--text-color);
+    margin-bottom: 20px;
 }
-
 .card:hover {
     transform: translateY(-3px);
     box-shadow: 0 12px 24px rgba(0,0,0,0.15);
 }
-
-.card-title, .card-text, .card-body {
-    color: var(--text-color) !important;
+.card-img-top {
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
 }
 
+/* Boutons */
 .btn {
     border-radius: 30px;
-    padding: 8px 24px;
+    padding: 8px 20px;
     font-weight: 500;
     transition: all 0.3s;
+    white-space: nowrap;
 }
-
 .btn-primary {
     background-color: var(--btn-primary-bg);
     border-color: var(--btn-primary-border);
 }
-
 .btn-primary:hover {
     background-color: #1B5E20;
     border-color: #1B5E20;
     transform: scale(1.02);
 }
-
 .btn-outline-light {
     border-radius: 30px;
 }
 
+/* Hero (page d'accueil) */
 .hero {
-    background: linear-gradient(135deg, rgba(46,125,50,0.9), rgba(27,94,32,0.9)), url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=2070') center/cover no-repeat;
+    background: linear-gradient(135deg, rgba(46,125,50,0.9), rgba(27,94,32,0.9)), 
+                url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=2070') center/cover no-repeat;
     color: white;
-    padding: 100px 0;
+    padding: 80px 0;
     text-align: center;
     position: relative;
     overflow: hidden;
 }
-
 .hero h1 {
     font-size: 3rem;
     font-weight: 700;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
 }
-
 .hero p {
     font-size: 1.2rem;
     max-width: 600px;
     margin: 0 auto;
 }
-
 .stat-badge {
     background: rgba(255,255,255,0.15);
     border-radius: 12px;
@@ -111,12 +118,12 @@ body {
     min-width: 120px;
     backdrop-filter: blur(10px);
 }
-
 .stat-number {
     font-size: 2rem;
     font-weight: bold;
 }
 
+/* Étapes */
 .etape-icon {
     width: 80px;
     height: 80px;
@@ -130,36 +137,35 @@ body {
     color: white;
 }
 
+/* Badges de statut */
 .etat-badge {
     padding: 5px 15px;
     border-radius: 20px;
     font-size: 0.85rem;
     font-weight: 600;
     display: inline-block;
-    margin: 4px 0;
 }
-
 .etat-soumis { background: #FFF3E0; color: #E65100; }
 .etat-en_cours { background: #E3F2FD; color: #0D47A1; }
 .etat-traite { background: #E8F5E9; color: #1B5E20; }
-
 .dark-mode .etat-soumis { background: #4E342E; color: #FFB74D; }
 .dark-mode .etat-en_cours { background: #1A237E; color: #90CAF9; }
 .dark-mode .etat-traite { background: #1B5E20; color: #A5D6A7; }
 
+/* Tableaux */
 .table {
     color: var(--text-color);
 }
-
 .table-striped tbody tr:nth-of-type(odd) {
     background-color: var(--table-stripe);
 }
 
-/* Inputs */
+/* Formulaires */
 .form-control, .form-select {
     background-color: var(--card-bg);
     color: var(--text-color);
     border: 1px solid #ccc;
+    border-radius: 8px;
 }
 .dark-mode .form-control,
 .dark-mode .form-select {
@@ -167,13 +173,65 @@ body {
     color: #fff;
     border-color: #555;
 }
-
-/* Navbar centralisation */
-.navbar .navbar-nav {
-    margin-left: auto;
-    margin-right: auto;
+textarea.form-control {
+    resize: vertical;
 }
 
+/* Responsive mobile */
 @media (max-width: 768px) {
-    .hero h1 { font-size: 2rem; }
+    .hero h1 {
+        font-size: 2rem;
+    }
+    .hero p {
+        font-size: 1rem;
+        padding: 0 10px;
+    }
+    .btn-lg {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+    .card-img-top {
+        height: 180px !important;
+        object-fit: cover;
+    }
+    .container, .container-fluid {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    .navbar-nav .btn {
+        margin: 5px 0;
+    }
+    .navbar .btn-outline-light {
+        margin-top: 5px;
+    }
+    /* Formulaire signalement : colonnes en pleine largeur */
+    .form-row .col-md-6 {
+        flex: 0 0 100%;
+        max-width: 100%;
+        margin-bottom: 10px;
+    }
+    .etape-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+    .stat-badge {
+        min-width: 90px;
+        padding: 15px;
+        margin: 5px;
+    }
+    .stat-number {
+        font-size: 1.5rem;
+    }
+}
+
+/* Pagination */
+.pagination .page-link {
+    border-radius: 50px;
+    margin: 0 3px;
+    color: var(--btn-primary-bg);
+}
+.pagination .page-item.active .page-link {
+    background-color: var(--btn-primary-bg);
+    border-color: var(--btn-primary-bg);
 }

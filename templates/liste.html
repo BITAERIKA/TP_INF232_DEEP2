@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signalements - Yaoundé Ville Propre</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/style.css">
@@ -10,20 +11,25 @@
 <nav class="navbar navbar-expand-lg navbar-dark" style="background:#2E7D32;">
   <div class="container">
     <a class="navbar-brand" href="/"><img src="/static/logo.svg" width="30"> Yaoundé Ville Propre</a>
-    <div class="ms-auto">
-        <a href="/" class="btn btn-outline-light btn-sm me-2">Accueil</a>
-        <button id="darkToggle" class="btn btn-outline-light btn-sm" onclick="toggleDark()">🌓</button>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item"><a class="nav-link" href="/">Accueil</a></li>
+      </ul>
+      <button id="darkToggle" class="btn btn-outline-light btn-sm ms-auto" onclick="toggleDark()">🌓</button>
     </div>
   </div>
 </nav>
 <div class="container mt-4">
     <h2>Tous les signalements</h2>
-    <div class="row">
+    <div class="row g-4">
         {% for s in signalements.items %}
-        <div class="col-md-6 col-lg-4 mb-4">
+        <div class="col-12 col-md-6 col-lg-4">
             <div class="card h-100">
                 {% if s.image_filename %}
-                <img src="/static/uploads/{{ s.image_filename }}" class="card-img-top" style="height:180px; object-fit:cover;">
+                <img src="/static/uploads/{{ s.image_filename }}" class="card-img-top" style="height:200px; object-fit:cover;">
                 {% endif %}
                 <div class="card-body">
                     <h5>{{ s.quartier }} <span class="etat-badge etat-{{ s.statut }}">{{ s.statut | replace('_',' ') | capitalize }}</span></h5>
@@ -35,8 +41,8 @@
         </div>
         {% endfor %}
     </div>
-    <nav>
-        <ul class="pagination justify-content-center">
+    <nav aria-label="Pagination" class="mt-4">
+        <ul class="pagination justify-content-center flex-wrap">
             {% if signalements.has_prev %}
             <li class="page-item"><a class="page-link" href="?page={{ signalements.prev_num }}">Précédent</a></li>
             {% endif %}
@@ -53,6 +59,7 @@
         </ul>
     </nav>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
   function toggleDark() {
     document.body.classList.toggle('dark-mode');
